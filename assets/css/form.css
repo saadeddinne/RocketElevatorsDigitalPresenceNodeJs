@@ -1,0 +1,54 @@
+/* form quote request  */
+
+#fields-1 {
+	display: none;
+	margin-top: 3px;
+	width: 50%;
+}
+#fields-2 {
+	display: none;
+	margin-top: 3px;
+	width: 50%;
+}
+#fields-3 {
+	display: none;
+	margin-top: 3px;
+	width: 50%;
+}
+#fields-4 {
+	display: none;
+	margin-top: 3px;
+	width: 50%;
+}
+#fields-5 {
+	display: none;
+	margin-top: 3px;
+	width: 50%;
+}
+#fields-6 {
+	display: none;
+	margin-top: 3px;
+	width: 50%;
+}
+#fields-7 {
+	display: none;
+	margin-top: 3px;
+	width: 50%;
+}
+#fields-8 {
+	display: none;
+	margin-top: 3px;
+	width: 50%;
+}
+#fields-9 {
+	display: none;
+	margin-top: 3px;
+	width: 50%;
+}
+/* #fields10 {
+	display: none;
+} */
+#myBox {
+	box-shadow: 10px 10px 5px grey;
+	/* height: 80vh; */
+}
