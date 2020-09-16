@@ -6,23 +6,9 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
-// app.get("/", function (req, res) {
-// 	res.sendFile(__dirname + "/index.html");
-// });
-// // handling post request
-// app.post("/", function (req, res) {
-// 	var num1 = Number(req.body.num1);
-// 	var num2 = Number(req.body.num2);
-// 	var result = num1 + num2;
-// 	res.send("The result is: " + result);
-// });
-
-/**
- * /bmi calculator
- */
 app.get("/", function (req, res) {
 	console.log();
-	res.sendFile(__dirname + "/index.html");
+	res.sendFile(__dirname + "/views/index.html");
 });
 //handling req
 app.post("/", function (req, res) {
@@ -36,9 +22,11 @@ app.post("/", function (req, res) {
 	var companies = Number(req.body.companies);
 	var occupents = Number(req.body.occupents);
 	var activity = Number(req.body.activity);
+	var range = req.body.range;
 	console.log(choix.localeCompare("Residential"));
 	console.log(choix.localeCompare("Commercial"));
 	console.log(choix);
+	console.log(range);
 
 	// lets calculate that
 
@@ -75,97 +63,73 @@ app.post("/", function (req, res) {
 	}
 
 	var numberElevators = nbElevatorCalculator();
-	// fonction cost
-	function getCost() {
-		if (productType[0].checked == true && nbElevator.value != 0) {
-			// set the price and the fee of installation
-			unitPrice.value = new Intl.NumberFormat("en-US", {
-				style: "currency",
-				currency: "USD",
-			}).format(7565);
-			priceElevator.value = new Intl.NumberFormat("en-US", {
-				style: "currency",
-				currency: "USD",
-			}).format(7565 * nbElevator.value);
-			instFee.value = new Intl.NumberFormat("en-US", {
-				style: "currency",
-				currency: "USD",
-			}).format(nbElevator.value * (7565 * 0.1));
-			totalCost.value = new Intl.NumberFormat("en-US", {
-				style: "currency",
-				currency: "USD",
-			}).format(nbElevator.value * (7565 * 1.1));
-		} else if (productType[1].checked == true && nbElevator.value != 0) {
-			// set the price
-			unitPrice.value = new Intl.NumberFormat("en-US", {
-				style: "currency",
-				currency: "USD",
-			}).format(12345);
-			priceElevator.value = new Intl.NumberFormat("en-US", {
-				style: "currency",
-				currency: "USD",
-			}).format(12345 * nbElevator.value);
-			instFee.value = new Intl.NumberFormat("en-US", {
-				style: "currency",
-				currency: "USD",
-			}).format(nbElevator.value * (12345 * 0.13));
-			totalCost.value = new Intl.NumberFormat("en-US", {
-				style: "currency",
-				currency: "USD",
-			}).format(nbElevator.value * (12345 * 1.13));
-		} else if (productType[2].checked == true && nbElevator.value != 0) {
-			// set the price
-			unitPrice.value = new Intl.NumberFormat("en-US", {
-				style: "currency",
-				currency: "USD",
-			}).format(15400);
-			priceElevator.value = new Intl.NumberFormat("en-US", {
-				style: "currency",
-				currency: "USD",
-			}).format(15400 * nbElevator.value);
-			instFee.value = new Intl.NumberFormat("en-US", {
-				style: "currency",
-				currency: "USD",
-			}).format(nbElevator.value * (15400 * 0.16));
-			totalCost.value = new Intl.NumberFormat("en-US", {
-				style: "currency",
-				currency: "USD",
-			}).format(nbElevator.value * (15400 * 1.16));
-		} else {
-			reloadForm();
-		}
-	}
 
-	// fin cost
-	var tt = nbElevatorCalculator();
-	res.send(
-		" Your choice is: " +
-			choix +
-			" voila tes variables : " +
-			"appart: " +
-			appart +
-			" floor: " +
-			floor +
-			" " +
-			" basement" +
-			basement +
-			"busines  " +
-			busines +
-			" parking: " +
-			parking +
-			" cages:  " +
-			cages +
-			" companies: " +
-			companies +
-			"occupents" +
-			occupents +
-			" activity: " +
-			activity +
-			"=====>" +
-			nbElevatorCalculator()
-	);
+	var unitPrice = 0;
+	var priceElevator = 0;
+	var instFee = 0;
+	var totalCost = 0;
+
+	if (range.localeCompare("standard") === 0) {
+		console.log("yessss");
+		unitPrice = 7565;
+		priceElevator = 7565 * nbElevatorCalculator();
+		instFee = nbElevatorCalculator() * (7565 * 0.1);
+		totalCost = nbElevatorCalculator() * (7565 * 1.1);
+		//
+		res.send(
+			"<html><body style={ #74b9ff;}><h1>PROJECT COST</h1><ul> <li>Number of elevator: " +
+				nbElevatorCalculator() +
+				"</li> <li>Unit price: $" +
+				unitPrice +
+				"</li> <li>Elevator total cost: $" +
+				priceElevator +
+				"</li> <li>Installation fee: $" +
+				instFee +
+				"</li><li>Total: $" +
+				totalCost +
+				"</li></ul></body></html>"
+		);
+	} else if (range.localeCompare("premium") === 0) {
+		unitPrice = 12345;
+		priceElevator = 12345 * nbElevatorCalculator();
+		instFee = nbElevatorCalculator() * (12345 * 0.13);
+		totalCost = nbElevatorCalculator() * (12345 * 1.13);
+		//
+		res.send(
+			"<html><body style={ #74b9ff;}><h1>PROJECT COST</h1><ul> <li>Number of elevator: " +
+				nbElevatorCalculator() +
+				"</li> <li>Unit price: $" +
+				unitPrice +
+				"</li> <li>Elevator total cost: $" +
+				priceElevator +
+				"</li> <li>Installation fee: $" +
+				instFee +
+				"</li><li>Total: $" +
+				totalCost +
+				"</li></ul></body></html>"
+		);
+	} else if (range.localeCompare("excelium") === 0) {
+		unitPrice = 15400;
+		priceElevator = 15400 * nbElevatorCalculator();
+		instFee = nbElevatorCalculator() * (15400 * 0.16);
+		totalCost = nbElevatorCalculator() * (15400 * 1.16);
+		//
+		res.send(
+			"<html><body style={ #74b9ff;}><h1>PROJECT COST</h1><ul> <li>Number of elevator: " +
+				nbElevatorCalculator() +
+				"</li> <li>Unit price: $" +
+				unitPrice +
+				"</li> <li>Elevator total cost: $" +
+				priceElevator +
+				"</li> <li>Installation fee: $" +
+				instFee +
+				"</li><li>Total: $" +
+				totalCost +
+				"</li></ul></body></html>"
+		);
+	}
 });
 // Server
-app.listen(9000, function () {
-	console.log("server is runing on port 9000");
+app.listen(8080, function () {
+	console.log("server is runing on port 9090");
 });
