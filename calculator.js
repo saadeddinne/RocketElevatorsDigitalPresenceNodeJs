@@ -130,6 +130,6 @@ app.post("/", function (req, res) {
 	}
 });
 // Server
-app.listen(8080, function () {
+app.listen(process.env.PORT || 3000, function () {
 	console.log("server is runing on port 9090");
 });
